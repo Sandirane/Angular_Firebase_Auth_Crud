@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, effect, input, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TaskCreate, TaskService } from '@app/task/data-access/task.service';
+import { Task, TaskCreate, TaskService } from '@app/task/data-access/task.service';
 
 @Component({
   selector: 'app-task-form',
@@ -20,9 +20,19 @@ export class TaskFormComponent {
   constructor(
     private formBuiler: FormBuilder,
     private router: Router,
-    private taskService: TaskService) { }
+    private taskService: TaskService) {
+
+    effect(() => {
+      const id = this.idTask();
+      if (id) {
+        this.getTask(id);
+      }
+    });
+  }
 
   loading = signal(false)
+
+  idTask = input.required<string>()
 
   form = this.formBuiler.group({
     title: this.formBuiler.control('', Validators.required),
@@ -41,13 +51,35 @@ export class TaskFormComponent {
         description: description || '',
         completed: !!completed
       }
+
+      const id = this.idTask();
+
+      if (id) {
+        await this.taskService.update(task, id)
+      } else {
+        await this.taskService.create(task)
+      }
+
       await this.taskService.create(task)
-      alert("task add")
+      alert(`task ${id ?  'update' : 'add'} `) 
       this.router.navigateByUrl('/tasks')
+    
     } catch (error) {
       alert("ERROR")
     } finally {
       this.loading.set(false)
     }
   }
+
+  async getTask(id: string) {
+    const taskSnapshot = await this.taskService.getTask(id);
+
+    if (!taskSnapshot.exists()) return;
+
+    const task = taskSnapshot.data() as Task;
+
+    this.form.patchValue(task);
+  }
+
+
 }

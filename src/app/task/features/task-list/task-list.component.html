@@ -1,3 +1,7 @@
 <button routerLink="/tasks/new">New task</button>
 
+@if(taskService.loading()) {
+<p>loading...</p>
+} @else {
 <app-table [tasks]="tasks()" />
+}

@@ -13,7 +13,8 @@
             <td>{{task.title}}</td>
             <td>{{task.description}}</td>
             <td>{{task.completed ? 'OK' : 'Not OK'}}</td>
-            <th><button>Edit</button></th>
+            <th><button [routerLink]="['/tasks/edit/' + task.id]">Edit</button></th>
+            <th><button (click)="deleteTask(task.id)">delete</button></th>
         </tr>
         } @empty {
         <tr>

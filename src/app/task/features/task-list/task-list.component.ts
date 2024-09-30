@@ -13,11 +13,9 @@ import { TableComponent } from '@app/task/ui/table/table.component';
 export default class TaskListComponent {
   tasks: () => Task[];  
 
-  constructor(private taskService: TaskService) { 
+  constructor(public taskService: TaskService) { 
+    
     this.tasks = this.taskService.getTasks();  
-
-    effect(() => {
-      console.log(this.tasks());  
-    });
+ 
   }
 }
