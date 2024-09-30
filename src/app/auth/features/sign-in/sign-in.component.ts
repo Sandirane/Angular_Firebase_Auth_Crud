@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@app/auth/data-access/auth.service';
+import { GoogleButtonComponent } from '@app/auth/ui/google-button/google-button.component';
 import { isRequired, hasEmailError } from '@app/auth/utils/validators';
 
 interface FormSignIn {
@@ -13,7 +14,11 @@ interface FormSignIn {
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterLink,
+    GoogleButtonComponent],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
@@ -52,6 +57,19 @@ export default class SignInComponent {
     } catch (error) {
       alert("User is not connect")
     }
+  }
+
+  async submitWithGoogle() {
+
+    try {
+
+      await this.authService.signInWithGoogle()
+      alert("User connected")
+      this.router.navigateByUrl('/tasks')
+    } catch (error) {
+      alert("User error not created")
+    }
+
   }
 
 }

@@ -1,5 +1,8 @@
 <div>
     <h1>Sign in to your account</h1>
+
+    <app-google-button (onClick)="submitWithGoogle()" />
+
     <form [formGroup]="form" (ngSubmit)="submitSignIn()">
         <div>
             <label>Email:</label>
