@@ -1,0 +1,27 @@
+<div>
+
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div>
+            <label>Title:</label>
+            <input type="text" formControlName="title" placeholder="Enter title" name="title">
+
+        </div>
+        <div>
+            <label>Description:</label>
+            <input type="text" formControlName="description" placeholder="Enter description" name="description">
+
+
+        </div>
+        <div>
+            <label class="form-check-label" for="check1">Completed :</label>
+            <input type="checkbox" class="form-check-input" formControlName="completed">
+        </div>
+
+
+        <button type="submit" [disabled]>{{loading() ? "loading...":"Confirm" }}</button>
+        <button routerLink="/tasks">Cancel</button>
+    </form>
+
+
+</div>

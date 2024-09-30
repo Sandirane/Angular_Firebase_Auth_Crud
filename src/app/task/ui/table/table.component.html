@@ -1,0 +1,25 @@
+<table>
+    <tr>
+        <!-- <th>Id</th> -->
+        <th>Title</th>
+        <th>Description</th>
+        <th>Completed</th>
+        <th>Action</th>
+    </tr>
+    <tbody>
+        @for(task of tasks(); track task.id) {
+        <tr>
+            <!-- <td>{{task.id}}</td>-->
+            <td>{{task.title}}</td>
+            <td>{{task.description}}</td>
+            <td>{{task.completed ? 'OK' : 'Not OK'}}</td>
+            <th><button [routerLink]="['/tasks/edit/' + task.id]">Edit</button></th>
+            <th><button (click)="deleteTask(task.id)">delete</button></th>
+        </tr>
+        } @empty {
+        <tr>
+            <td>No data</td>
+        </tr>
+        }
+    </tbody>
+</table>
