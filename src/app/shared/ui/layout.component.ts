@@ -1,4 +1,4 @@
-import { Router, RouterLink, RouterOutlet } from "@angular/router"
+import { RouterLink, RouterOutlet } from "@angular/router"
 import { AuthStateService } from "../data-access/auth-state.service"
 import { CommonModule } from "@angular/common"
 import { Component } from "@angular/core"
@@ -12,14 +12,5 @@ import { Component } from "@angular/core"
 })
 
 export default class LayoutCompoent {
-
-    constructor(
-        public authStateService: AuthStateService,
-        private router: Router) { }
-
-    async logOut() {
-        await this.authStateService.logOut()
-        this.router.navigateByUrl('/auth/sign-in')
-
-    }
+    constructor(public authStateService: AuthStateService) { }
 } 

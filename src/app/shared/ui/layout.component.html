@@ -1,5 +1,5 @@
-<button (click)="logOut()">
-    Logout
-</button>
-
+@if(!authStateService.currentUser) {
+<button routerLink="/auth/sign-in">Login</button>
+<button routerLink="/auth/sign-up">Register</button>
+}  
 <router-outlet />

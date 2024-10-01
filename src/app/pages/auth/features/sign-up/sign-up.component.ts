@@ -1,28 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '@app/auth/data-access/auth.service';
-import { GoogleButtonComponent } from '@app/auth/ui/google-button/google-button.component';
-import { isRequired, hasEmailError } from '@app/auth/utils/validators';
+import { Router, RouterLink } from '@angular/router'; 
+import { AuthService } from '../../data-access/auth.service';
+import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
+import { isRequired, hasEmailError } from '../../utils/validators';
 
-interface FormSignIn {
+interface FormSignUp {
   email: FormControl<string | null>,
   password: FormControl<string | null>
 }
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'app-sign-up',
   standalone: true,
   imports: [
     ReactiveFormsModule,
     CommonModule,
     RouterLink,
-    GoogleButtonComponent],
-  templateUrl: './sign-in.component.html',
-  styleUrl: './sign-in.component.css'
+    GoogleButtonComponent
+  ],
+  templateUrl: './sign-up.component.html',
+  styleUrl: './sign-up.component.css'
 })
-export default class SignInComponent {
+export default class SignUpComponent {
 
   constructor(
     private formBuiler: FormBuilder,
@@ -37,25 +38,27 @@ export default class SignInComponent {
     return hasEmailError(this.form)
   }
 
-  form = this.formBuiler.group<FormSignIn>({
+  form = this.formBuiler.group<FormSignUp>({
     email: this.formBuiler.control('', [
       Validators.required,
-      Validators.email,
+      Validators.email
     ]),
-    password: this.formBuiler.control('', Validators.required),
-  });
+    password: this.formBuiler.control('',
+      Validators.required
+    ),
+  })
 
-  async submitSignIn() {
+  async submitSignUp() {
     if (this.form.invalid) return;
 
     try {
       const { email, password } = this.form.value
       if (!email || !password) return;
-      await this.authService.signIn({ email, password })
-      alert("User is connect")
+      await this.authService.signUp({ email, password })
+      alert("User created")
       this.router.navigateByUrl('/tasks')
     } catch (error) {
-      alert("User is not connect")
+      alert("User error not created")
     }
   }
 
@@ -63,9 +66,9 @@ export default class SignInComponent {
 
     try {
 
-      await this.authService.signInWithGoogle()
+      await this.authService.signInWithGoogle() 
       alert("User connected")
-      this.router.navigateByUrl('/tasks')
+      this.router.navigateByUrl('/tasks') 
     } catch (error) {
       alert("User error not created")
     }

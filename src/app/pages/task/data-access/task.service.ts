@@ -1,6 +1,13 @@
 import { Injectable, signal } from '@angular/core';
 import {
-  CollectionReference, Firestore, collection, addDoc, collectionData, doc, getDoc, updateDoc,
+  CollectionReference,
+  Firestore,
+  collection,
+  collectionData,
+  doc,
+  addDoc,
+  getDoc,
+  updateDoc,
   deleteDoc
 } from '@angular/fire/firestore';
 import { AuthStateService } from '@app/shared/data-access/auth-state.service';
@@ -32,7 +39,6 @@ export class TaskService {
     private authState: AuthStateService
   ) {
     this.collection = collection(this.firestore, PATH) as CollectionReference<Task>;
-
   }
 
   getTasks() {
@@ -72,4 +78,5 @@ export class TaskService {
     const docRef = doc(this.collection, id);
     return deleteDoc(docRef);
   }
+  
 } 

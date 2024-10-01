@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Task, TaskService } from '@app/task/data-access/task.service';
+import { Task, TaskService } from '../../data-access/task.service';
 
 @Component({
   selector: 'app-table',
@@ -12,11 +12,11 @@ import { Task, TaskService } from '@app/task/data-access/task.service';
 export class TableComponent {
   tasks = input.required<Task[]>()
 
-  constructor(private taskService: TaskService) { }  
+  constructor(private taskService: TaskService) { }
 
   deleteTask(id: string) {
-    this.taskService.delete(id).then(() => { 
-      alert(`Task with id ${id} deleted successfully`) 
+    this.taskService.delete(id).then(() => {
+      alert(`Task with id ${id} deleted successfully`)
     }).catch(error => {
       console.error("Error deleting task: ", error);
     });

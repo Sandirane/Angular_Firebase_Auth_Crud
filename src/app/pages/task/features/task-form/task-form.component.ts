@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, input, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { Task, TaskCreate, TaskService } from '@app/task/data-access/task.service';
+import { TaskService, TaskCreate, Task } from '../../data-access/task.service';
 
 @Component({
   selector: 'app-task-form',
@@ -28,6 +28,7 @@ export class TaskFormComponent {
         this.getTask(id);
       }
     });
+
   }
 
   loading = signal(false)
@@ -61,9 +62,9 @@ export class TaskFormComponent {
       }
 
       await this.taskService.create(task)
-      alert(`task ${id ?  'update' : 'add'} `) 
+      alert(`task ${id ? 'update' : 'add'} `)
       this.router.navigateByUrl('/tasks')
-    
+
     } catch (error) {
       alert("ERROR")
     } finally {
