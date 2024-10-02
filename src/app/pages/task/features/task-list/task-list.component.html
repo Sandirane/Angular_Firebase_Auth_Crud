@@ -1,7 +1,23 @@
-<button routerLink="/tasks/new">New task</button>
+<div class="container p-5 my-5 border">
 
-@if(taskService.loading()) {
-<p>loading...</p>
-} @else {
-<app-table [tasks]="tasks()" />
-}
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-6"></div>
+        <div class="col"></div>
+        <div class="col">
+            <button type="button" class="btn btn-outline-primary" routerLink="/tasks/new">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+
+    @if(taskService.loading()) {
+    <div class="d-flex justify-content-center align-items-center" style="height:100vh; width:100vh;">
+        <div class="spinner-border text-primary custom-spinner" role="status"></div>
+    </div>
+    } @else {
+    <app-table [tasks]="tasks()" />
+    }
+
+</div>

@@ -1,15 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../data-access/auth.service';
 import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
 import { isRequired, hasEmailError } from '../../utils/validators';
+import { FormSignIn } from '../../data-access/models/formSignIn';
 
-interface FormSignIn {
-  email: FormControl<string | null>,
-  password: FormControl<string | null>
-}
 
 @Component({
   selector: 'app-sign-in',
@@ -37,6 +34,10 @@ export default class SignInComponent {
     return hasEmailError(this.form)
   }
 
+
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
+
   form = this.formBuiler.group<FormSignIn>({
     email: this.formBuiler.control('', [
       Validators.required,
@@ -52,22 +53,25 @@ export default class SignInComponent {
       const { email, password } = this.form.value
       if (!email || !password) return;
       await this.authService.signIn({ email, password })
-      alert("User is connect")
-      this.router.navigateByUrl('/tasks')
+      this.successMessage.set("User is connect");
+      setTimeout(() => {
+        this.router.navigateByUrl('/tasks');
+      }, 3000);
     } catch (error) {
-      alert("User is not connect")
+      this.errorMessage.set("User is not connect");
     }
   }
 
   async submitWithGoogle() {
 
     try {
-
       await this.authService.signInWithGoogle()
-      alert("User connected")
-      this.router.navigateByUrl('/tasks')
+      this.successMessage.set("User is connect");
+      setTimeout(() => {
+        this.router.navigateByUrl('/tasks');
+      }, 3000);
     } catch (error) {
-      alert("User error not created")
+      this.errorMessage.set("User is not connect");
     }
 
   }

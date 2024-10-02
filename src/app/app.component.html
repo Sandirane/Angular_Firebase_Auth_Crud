@@ -1,6 +1,14 @@
 @if(authStateService.currentUser) {
-<button (click)="logOut()">
-    Logout
-</button>
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand"></a>
+        <ul class="navbar-nav me-auto"></ul>
+        <button type="button" class="btn btn-outline-danger" (click)="logOut()">
+            <i class="fas fa-sign-out"></i>
+        </button>
+    </div>
+</nav>
 }
+
 <router-outlet />

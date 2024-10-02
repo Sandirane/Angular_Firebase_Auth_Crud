@@ -28,7 +28,6 @@ export class TaskFormComponent {
         this.getTask(id);
       }
     });
-
   }
 
   loading = signal(false)
@@ -40,6 +39,9 @@ export class TaskFormComponent {
     description: this.formBuiler.control('', Validators.required),
     completed: this.formBuiler.control(false, Validators.required)
   })
+
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
 
   async submit() {
     if (this.form.invalid) return
@@ -61,12 +63,16 @@ export class TaskFormComponent {
         await this.taskService.create(task)
       }
 
-      await this.taskService.create(task)
-      alert(`task ${id ? 'update' : 'add'} `)
-      this.router.navigateByUrl('/tasks')
+      this.successMessage.set(`Task ${id ? 'updated' : 'added'} successfully!`);
+      this.errorMessage.set(null);
+
+      setTimeout(() => {
+        this.router.navigateByUrl('/tasks');
+      }, 2000);
 
     } catch (error) {
-      alert("ERROR")
+      this.errorMessage.set("An error occurred while processing the task.");
+      this.successMessage.set(null);
     } finally {
       this.loading.set(false)
     }
@@ -81,6 +87,4 @@ export class TaskFormComponent {
 
     this.form.patchValue(task);
   }
-
-
 }

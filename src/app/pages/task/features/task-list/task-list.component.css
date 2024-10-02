@@ -1,0 +1,17 @@
+.custom-spinner {
+    width: 50%;
+    height: 50%;
+    border-width: 0.5rem;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}

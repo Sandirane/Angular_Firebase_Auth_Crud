@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router'; 
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../data-access/auth.service';
 import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
 import { isRequired, hasEmailError } from '../../utils/validators';
@@ -38,6 +38,10 @@ export default class SignUpComponent {
     return hasEmailError(this.form)
   }
 
+
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
+
   form = this.formBuiler.group<FormSignUp>({
     email: this.formBuiler.control('', [
       Validators.required,
@@ -55,24 +59,25 @@ export default class SignUpComponent {
       const { email, password } = this.form.value
       if (!email || !password) return;
       await this.authService.signUp({ email, password })
-      alert("User created")
-      this.router.navigateByUrl('/tasks')
+      this.successMessage.set("User created");
+      setTimeout(() => {
+        this.router.navigateByUrl('/tasks');
+      }, 3000);
     } catch (error) {
-      alert("User error not created")
+      this.errorMessage.set("User error not created");
     }
   }
-
   async submitWithGoogle() {
-
     try {
-
-      await this.authService.signInWithGoogle() 
-      alert("User connected")
-      this.router.navigateByUrl('/tasks') 
+      await this.authService.signInWithGoogle()
+      this.successMessage.set("User connected");
+      setTimeout(() => {
+        this.router.navigateByUrl('/tasks');
+      }, 3000);
     } catch (error) {
-      alert("User error not created")
+      this.errorMessage.set("User error not created");
     }
-
   }
-
 }
+
+

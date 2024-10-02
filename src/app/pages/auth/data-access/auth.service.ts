@@ -7,11 +7,7 @@ import {
   signInWithPopup,
   user as firebaseUser
 } from '@angular/fire/auth';
-
-export interface User {
-  email: string;
-  password: string;
-}
+import { User } from './models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +37,7 @@ export class AuthService {
 
   signInWithGoogle() {
     const provider = new GoogleAuthProvider()
- 
+
     return signInWithPopup(this.auth, provider)
   }
 

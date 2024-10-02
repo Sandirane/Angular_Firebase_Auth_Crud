@@ -13,13 +13,7 @@ import {
 import { AuthStateService } from '@app/shared/data-access/auth-state.service';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
-
-export interface Task {
-  id: string;
-  title: string;
-  description: string;
-  completed: boolean;
-}
+import { Task } from './models/task';
 
 export type TaskCreate = Omit<Task, 'id'>
 
@@ -80,3 +74,5 @@ export class TaskService {
   }
   
 } 
+
+export { Task };

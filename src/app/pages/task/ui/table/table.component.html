@@ -1,25 +1,58 @@
-<table>
-    <tr>
-        <!-- <th>Id</th> -->
-        <th>Title</th>
-        <th>Description</th>
-        <th>Completed</th>
-        <th>Action</th>
-    </tr>
-    <tbody>
-        @for(task of tasks(); track task.id) {
-        <tr>
-            <!-- <td>{{task.id}}</td>-->
-            <td>{{task.title}}</td>
-            <td>{{task.description}}</td>
-            <td>{{task.completed ? 'OK' : 'Not OK'}}</td>
-            <th><button [routerLink]="['/tasks/edit/' + task.id]">Edit</button></th>
-            <th><button (click)="deleteTask(task.id)">delete</button></th>
-        </tr>
-        } @empty {
-        <tr>
-            <td>No data</td>
-        </tr>
-        }
-    </tbody>
-</table>
+<div>
+    @if(successMessage()) {
+    <div class="alert alert-success" role="alert">
+        <strong>Success!</strong> {{ successMessage() }}
+    </div>
+    }
+    @if (errorMessage()) {
+    <div class="alert alert-danger" role="alert">
+        <strong>Error!</strong> {{ errorMessage() }}
+    </div>
+    }
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Completed</th>
+                <th>Action</th>
+            </tr>
+            <tbody>
+                @for(task of tasks(); track task.id) {
+                <tr>
+                    <td>{{task.id}}</td>
+                    <td>{{task.title}}</td>
+                    <td>
+                        {{ task.description.length > 50 ? (task.description | slice:0:50) + '...' : task.description }}
+                    </td>
+                    <td>
+                        <span class="badge" [ngClass]="task.completed ? 'bg-success' : 'bg-danger'">
+                            {{ task.completed ? 'Completed' : 'Not Completed' }}
+                        </span>
+                    </td>
+                    <th>
+                        <button type="button" class="btn btn-outline-warning" [routerLink]="['/tasks/edit/' + task.id]">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </th>
+                    <th>
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteTask(task.id)">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </th>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="5">
+                        <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                            <h1>No data</h1>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>

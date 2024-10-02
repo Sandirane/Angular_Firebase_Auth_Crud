@@ -1,34 +1,67 @@
-<div>
-    <h1>Sign in to your account</h1>
+@if(isRequired('email')) {
+<div class="alert alert-danger">
+    <strong>Error email</strong> required fields.
+</div>
+}
+@if(hasEmailError()) {
+<div class="alert alert-danger">
+    <strong>Error email</strong> email must be valid
+</div>
+}
 
-    <app-google-button (onClick)="submitWithGoogle()" />
+@if(isRequired('password')) {
+<div class="alert alert-danger">
+    <strong>Error password</strong> required fields.
+</div>
+}
 
-    <form [formGroup]="form" (ngSubmit)="submitSignIn()">
-        <div>
-            <label>Email:</label>
-            <input type="email" formControlName="email" placeholder="Enter email" name="email">
-            @if(isRequired('email')) {
-            <small>required fields</small>
-            }
-            @if(hasEmailError()) {
-            <small>email must be valid</small>
-            }
+@if(successMessage()) {
+<div class="alert alert-success" role="alert">
+    <strong>Success!</strong> {{ successMessage() }}
+</div>
+}
+@if (errorMessage()) {
+<div class="alert alert-danger" role="alert">
+    <strong>Error!</strong> {{ errorMessage() }}
+</div>
+}
 
+
+
+
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+
+    <div class="card p-4 shadow" style="max-width: 400px; width: 100%;">
+
+        <h3 class="card-title text-center mb-4"> <i class="fa-solid fa-circle-user"></i>
+            Sign in to your account 
+        </h3>
+
+        <form [formGroup]="form" (ngSubmit)="submitSignIn()">
+            <div class="form-group mb-3">
+                <label for="email">Email address</label>
+                <input type="email" formControlName="email" class="form-control" id="email" placeholder="Enter email">
+
+            </div>
+            <div class="form-group mb-4">
+                <label for="password">Password</label>
+                <input type="password" formControlName="password" class="form-control" id="password"
+                    placeholder="Password">
+
+            </div>
+
+            <button type="submit" class="btn btn-outline-success btn-block w-100">Login</button>
+
+        </form>
+
+        <hr>
+
+        <div class="row">
+            <div class="col"> <app-google-button (onClick)="submitWithGoogle()" /></div>
+            <div class="col"> <button class="btn btn-outline-secondary" routerLink="/auth/sign-up">Register an
+                    account?</button>
+            </div>
         </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" formControlName="password" placeholder="Enter password" name="password">
-            @if(isRequired('password')) {
-            <small>required fields</small>
-            }
-        </div>
-        <div>
-            <label>
-                <input type="checkbox" name="remember"> Remember me
-            </label>
-        </div>
-        <button type="submit">Sign in</button>
-    </form>
 
-    <a routerLink="/auth/sign-up">Register an account?</a>
+    </div>
 </div>
